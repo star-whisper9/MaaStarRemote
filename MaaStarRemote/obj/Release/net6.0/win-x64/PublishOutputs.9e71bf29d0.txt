@@ -1,0 +1,5 @@
+E:\Docs\source\WebApps\MaaStarRemote\MaaStarRemote\obj\Release\net6.0\win-x64\PubTmp\Out\appsettings.Development.json
+E:\Docs\source\WebApps\MaaStarRemote\MaaStarRemote\obj\Release\net6.0\win-x64\PubTmp\Out\appsettings.json
+E:\Docs\source\WebApps\MaaStarRemote\MaaStarRemote\obj\Release\net6.0\win-x64\PubTmp\Out\MaaStarRemote.pdb
+E:\Docs\source\WebApps\MaaStarRemote\MaaStarRemote\obj\Release\net6.0\win-x64\PubTmp\Out\e_sqlite3.dll
+E:\Docs\source\WebApps\MaaStarRemote\MaaStarRemote\obj\Release\net6.0\win-x64\PubTmp\Out\MaaStarRemote.exe

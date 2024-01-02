@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "截图回报";
+}
+<div class="text-center" style="color:#f1f2f3">
+    <form id="getReportForm" style="color:#f1f2f3">
+        <label for="userId">用户名：</label><br>
+        <input type="text" id="userId" name="userId" size="44"><br>
+        <label for="deviceId">设备id：</label><br>
+        <input type="text" id="deviceId" name="deviceId" size="44"><br>
+        <label for="date">查询日期：</label><br>
+        <input type="date" id="date" name="date">
+        <input type="submit" value="提交">
+    </form>
+</div>
+<div id="first" style="border: 2px solid #f1f2f3;border-radius: 5px; margin: 0 auto; color:#f1f2f3;width:80%;margin-top:15px">
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('getReportForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var userId = document.getElementById('userId').value;
+            var deviceId = document.getElementById('deviceId').value;
+            var date = document.getElementById('date').value;
+            var requestData = {
+                user: userId,
+                device: deviceId,
+                time: date
+            };
+
+            fetch('/api/Core/getReport', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var firstDiv = document.getElementById('first');
+                    if (data.length > 0) {
+                        firstDiv.innerHTML = '';
+                        data.forEach(item => {
+                            var img = document.createElement('img');
+                            img.src = item.payload;
+                            img.style.width = '100%'; // 设置图片宽度为100%
+                            img.style.height = 'auto'; // 设置图片高度自适应
+                            firstDiv.appendChild(img);
+                        });
+                    } else {
+                        firstDiv.innerHTML = '未找到截图任务';
+                    }
+                })
+                .catch(e => {
+                    var firstDiv = document.getElementById('first');
+                    firstDiv.innerHTML = '错误: ' + e.message;
+                });
+        });
+    </script>
+}

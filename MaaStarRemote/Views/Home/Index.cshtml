@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "任务列表";
+}
+
+<style>
+    #leftList li {
+        margin-top:3px;
+        margin-bottom: 3px;
+        font-size:19px;
+    }
+
+    input {
+        border: 1px solid #ccc;
+        padding: 7px 0px;
+        border-radius: 3px; 
+        padding-left: 5px;
+    }
+    label{
+        color:#f1f2f3;
+    }
+</style>
+
+<div class="text-center">
+    <div class="users">
+        <input type="text" id="username" placeholder="用户名" size="44" style="margin-bottom:10px"><br />
+        <input type="text" id="deviceid" placeholder="设备id" size="44" style="margin-bottom:10px">
+    </div>
+    <div class="lists">
+        <div id="first" style="border: 2px solid #f1f2f3;border-radius: 5px; width: 70%; height: 500px; overflow: auto;margin: 0 auto; color:#f1f2f3">
+            <ul id="leftList"></ul>
+        </div>
+        <div id="second">
+            <select id="rightList">
+                @foreach (var item in ViewBag.DropdownItems)
+                {
+                    <option>@item</option>
+                }
+            </select>
+            <button id="selectBtn">选择</button>
+        </div>
+        <div id="time">
+            <label for="repeatSelect">任务重复间隔: </label>
+            <input type="checkbox" id="repeatSelect">
+            <input type="time" id="timeInput">
+        </div>
+    </div>
+    <div class="save">
+        <button id="submitBtn">提交</button>
+        <button id="clearBtn">清空</button>
+    </div>
+</div>
+
+<script>
+    // Initialize the dropdown and variable list
+    var dropdown = document.getElementById("rightList");
+    var variableList = document.getElementById("leftList");
+
+    // Function to add an item to the variable list
+    function addToVariableList(item) {
+        var li = document.createElement("li");
+        li.textContent = item;
+        variableList.appendChild(li);
+    }
+
+    // Event listener for the select button
+    document.getElementById("selectBtn").addEventListener("click", function () {
+        var selectedItem = dropdown.options[dropdown.selectedIndex].text;
+        addToVariableList(selectedItem);
+    });
+
+    // 在这里写一个函数，控制“清空”按钮，点击时清空leftList
+    document.getElementById("clearBtn").addEventListener("click", function () {
+        var leftList = document.getElementById("leftList");
+        leftList.innerHTML = "";
+    });
+</script>
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function () {
+        var username = document.getElementById("username").value;
+        var deviceid = document.getElementById("deviceid").value;
+        var tasks = Array.from(document.getElementById("leftList").getElementsByTagName("li")).map(function (li, index) {
+            return {
+                order: index,
+                task: li.textContent
+            };
+        });
+        var repeatSelect = document.getElementById("repeatSelect").checked;
+        var timeInput = document.getElementById("timeInput").value;
+        var interval = 0;
+        if (repeatSelect) {
+            var timeParts = timeInput.split(":");
+            interval = (+timeParts[0] * 60 * 60) + (+timeParts[1] * 60);
+        }
+
+        var data = {
+            "user": username,
+            "device": deviceid,
+            "tasks": tasks,
+            "interval": interval
+        };
+
+
+        fetch('/api/Core/addTasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+    </script>
