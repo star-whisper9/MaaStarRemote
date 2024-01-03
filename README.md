@@ -12,13 +12,28 @@
 
 - 前往[**Release**](https://github.com/star-whisper9/MaaStarRemote/releases)下载最新的 Release 包
 - 确保安装了 DotNet 6 运行环境
-- 使用终端启动**MaaStarRemote.exe**
-- 自行暴露端口部署或使用其他应用调用
+- 使用 IIS/Nginx 或任何你熟悉的环境部署
 - _按需修改_ `appsettings.json`
 
 ---
 
-## 端点
+## Maa 端点
+
+所有端点均要求 Https 访问。
+
+### 获取任务列表
+
+```
+api/Core/getTasks
+```
+
+### 回报任务信息
+
+```
+api/Core/reportStatus
+```
+
+## 前端端点
 
 所有端点均要求 Https 访问。
 
