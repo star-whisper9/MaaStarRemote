@@ -110,7 +110,7 @@ namespace MaaStarRemote.Controllers
                 log.LogInformation("前端 - 未找到正确用户和设备");
                 return StatusCode(403, "未找到正确的用户或设备");
             }
-            var userTasks = _context.Tasks.Where(t => t.user == user);
+            var userTasks = _context.Tasks.Where(t => t.user == user).ToList();
             _context.Tasks.RemoveRange(userTasks);
             await _context.SaveChangesAsync();
 
@@ -134,7 +134,8 @@ namespace MaaStarRemote.Controllers
                     time = DateTime.Now,
                     uuid = uuid,
                     user = user,
-                    task = task.task
+                    task = task.task,
+                    id = Guid.NewGuid().ToString()
                 };
 
                 _context.Tasks.Add(newTask);

@@ -14,7 +14,6 @@ namespace MaaStarRemote.Models
         public string device { get; set; }
 
         [Key]
-        [ForeignKey("Tasks.uuid")]
         public string task { get; set; }
 
         [Required]

@@ -47,7 +47,7 @@
                         firstDiv.innerHTML = '';
                         data.forEach(item => {
                             var img = document.createElement('img');
-                            img.src = item.payload;
+                            img.src = "data:image/png;base64," + item.payload;
                             img.style.width = '100%'; // 设置图片宽度为100%
                             img.style.height = 'auto'; // 设置图片高度自适应
                             firstDiv.appendChild(img);

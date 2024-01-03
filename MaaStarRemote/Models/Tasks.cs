@@ -8,7 +8,7 @@ namespace MaaStarRemote.Models
     {
 
         [Key]
-        public int order { get; set; }
+        public string id { get; set; }
 
         [ForeignKey("Users")]
         public string user { get; set; }
